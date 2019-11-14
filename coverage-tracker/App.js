@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import Constants from 'expo-constants';
 
 
@@ -26,7 +26,7 @@ export default function App() {
     return locations.map((location, index)=>{
       location.id = index
       return location
-    }).filter(location => location.Latitude && location .Longitude)
+    }).filter(location => location.Latitude && location.Longitude)
   }
 
   return (
@@ -39,7 +39,19 @@ export default function App() {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-      />
+      >
+        {locations.map(location => {
+          return <Marker
+            key={location.id}
+            coordinate={{
+              latitude: location.Latitude,
+              longitude: location.Longitude
+            }}
+            title={location.Name}
+            description={location.Name}
+          />
+        })}
+      </MapView>
     </View>
   );
 }
