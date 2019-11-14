@@ -1,6 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import MapView from 'react-native-maps';
+import Constants from 'expo-constants';
+
 
 export default function App() {
   // Setting up locations
@@ -14,7 +17,6 @@ export default function App() {
       );
       let parseObject = await response.json();
       setLocations(assignIDs(parseObject))
-      console.log(locations[0])
     }
     fetchData()
   }, []);
@@ -28,14 +30,16 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        {
-          locations.map((location) => {
-            return <Text key={location.id}>Name: {location.Name} Lat: {location.Latitude} Long: {location.Longitude}</Text>
-          })
-        }
-      </ScrollView>
+    <View style={styles.absoluteFill}>
+      <MapView 
+        style = {[styles.absoluteFill, styles.mapMargin]}
+        initialRegion={{
+          latitude: 38.0336,
+          longitude: -78.5080,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      />
     </View>
   );
 }
@@ -47,4 +51,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  absoluteFill: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  mapMargin: {
+    borderWidth: 5,
+    borderColor: 'black',
+    marginTop: 100,
+    marginLeft: 1,
+    marginRight: 1,
+  }
 });
