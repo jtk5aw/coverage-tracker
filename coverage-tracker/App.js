@@ -7,6 +7,7 @@ import Constants from 'expo-constants';
 import DormLocations from './components/DormLocations'
 
 
+// Include this somehow <div>Icons made by <a href="https://www.flaticon.com/authors/dave-gandy" title="Dave Gandy">Dave Gandy</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 export default function App() {
   // Setting up locations
   const [locations, setLocations] = useState([]); 
