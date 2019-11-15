@@ -1,8 +1,10 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView from 'react-native-maps';
 import Constants from 'expo-constants';
+
+import DormLocations from './components/DormLocations'
 
 
 export default function App() {
@@ -40,17 +42,7 @@ export default function App() {
           longitudeDelta: 0.0421,
         }}
       >
-        {locations.map(location => {
-          return <Marker
-            key={location.id}
-            coordinate={{
-              latitude: location.Latitude,
-              longitude: location.Longitude
-            }}
-            title={location.Name}
-            description={location.Name}
-          />
-        })}
+        <DormLocations locations={locations}/>
       </MapView>
     </View>
   );
