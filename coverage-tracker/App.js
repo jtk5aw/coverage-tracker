@@ -9,6 +9,11 @@ import DormLocations from './components/DormLocations'
 
 
 // Include this somehow <div>Icons made by <a href="https://www.flaticon.com/authors/dave-gandy" title="Dave Gandy">Dave Gandy</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+// Include this too <div>Icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
+var APP = {
+  locations_url: "https://api.devhub.virginia.edu/v1/facilities/categories/housing"
+}
 
 export default function App() {
   // Setting up locations
@@ -24,9 +29,7 @@ export default function App() {
   useEffect(() => {
     const getStartLoc = async () => {
       const { status, permissions } = await Permissions.askAsync(Permissions.LOCATION);
-      console.log(status)
       if (status === 'granted') {
-        console.log('in if')
         navigator.geolocation.getCurrentPosition(
           position => {
             const currLocation = position.coords;
@@ -40,7 +43,7 @@ export default function App() {
         );
       }
       else {
-        alert('Rigt now location is not enabled for this app.');
+        alert('Right now location is not enabled for this app.');
       }
     }
     getStartLoc()
@@ -50,7 +53,7 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       let response = await fetch(
-        "https://api.devhub.virginia.edu/v1/facilities/categories/housing"
+        APP.locations_url
       );
       let parseObject = await response.json();
       setLocations(assignIDs(parseObject))
