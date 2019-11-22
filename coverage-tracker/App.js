@@ -7,15 +7,21 @@ import * as Permissions from 'expo-permissions'
 
 import DormLocations from './components/DormLocations'
 
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+import firebaseApp from './FirebaseWrapper.js'
+
 
 // Include this somehow <div>Icons made by <a href="https://www.flaticon.com/authors/dave-gandy" title="Dave Gandy">Dave Gandy</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 // Include this too <div>Icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
-var APP = {
-  locations_url: "https://api.devhub.virginia.edu/v1/facilities/categories/housing"
-}
-
 export default function App() {
+  // Setting up the database
+  var database = firebase.database()
+  this.ref = database.ref('default')
+  const dbh = firebase.firestore();
+  const dormLocationsRef = dbh.collection('dorm-locations')
+
   // Setting up locations
   const [locations, setLocations] = useState([]); 
   const [currLoc, setCurrLoc] = useState({
@@ -49,25 +55,25 @@ export default function App() {
     getStartLoc()
   }, [])
 
-  //Hook The fires on onmount and gets data 
-  useEffect(() => {
-    const fetchData = async () => {
-      let response = await fetch(
-        APP.locations_url
-      );
-      let parseObject = await response.json();
-      setLocations(assignIDs(parseObject))
-    }
-    fetchData()
-  }, []);
-
-  function assignIDs(locations){
-    // ONly keeps locationsn with valid locations
-    return locations.map((location, index)=>{
-      location.id = index
-      return location
-    }).filter(location => location.Latitude && location.Longitude)
-  }
+    useEffect(() => {
+      dormLocationsRef.get()
+      .then((querySnapshot) => {
+        parseObject = querySnapshot.docs.map((doc, index) => {
+          data = doc.data()
+          return {
+            'id': index,
+            'Name': doc.id,
+            'Latitude': data.Latitude,
+            'Longitude': data.Longitude
+          }
+        })
+        setLocations(parseObject)
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+    
+    }, [])
 
   return (
     <View style={styles.absoluteFill}>
@@ -88,8 +94,8 @@ export default function App() {
         }}
         title='You are here'
         description='This is you'
+        pinColor='blue'
         >
-          <Image source={require('./assets/circle-shape-outline.png')} style={{height: 15, width:15 }} />
         </Marker>
       </MapView>
     </View>
