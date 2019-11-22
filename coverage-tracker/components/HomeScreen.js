@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions'
@@ -75,29 +75,44 @@ export default function HomeScreen(props) {
     
     }, [])
 
+    const signout = () => {
+        firebase.auth().signOut().then(() => {
+            props.navigation.navigate('Login', {
+                navigation: props.navigation,
+            })
+        }).catch((error) =>  {
+            alert('An error occurred that prevented Sign Out from occuring')
+        })
+    }
+
   return (
     <View style={styles.absoluteFill}>
-      <MapView 
+        <TouchableOpacity 
+            style={styles.signOut}
+            onPress={() => signout()}>
+           <Text>Sign Out</Text> 
+        </TouchableOpacity>
+        <MapView 
         style = {[styles.absoluteFill, styles.mapMargin]}
         initialRegion={{
-          latitude: 38.0336,
-          longitude: -78.5080,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+            latitude: 38.0336,
+            longitude: -78.5080,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
         }}
-      >
+        >
         <DormLocations locations={locations}/>
         <Marker
         coordinate={{ // May update if currLoc changes
-          latitude: currLoc.latitude, 
-          longitude: currLoc.longitude
+            latitude: currLoc.latitude, 
+            longitude: currLoc.longitude
         }}
         title='You are here'
         description='This is you'
         pinColor='blue'
         >
         </Marker>
-      </MapView>
+        </MapView>
     </View>
   );
 }
@@ -118,5 +133,10 @@ const styles = StyleSheet.create({
     marginTop: 100,
     marginLeft: 1,
     marginRight: 1,
-  }
+  }, 
+  signOut: {
+    alignItems: 'flex-end', 
+    marginTop: Constants.statusBarHeight,
+    backgroundColor: '#DDDDDD',
+  },
 });

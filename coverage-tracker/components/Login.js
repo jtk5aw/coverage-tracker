@@ -24,14 +24,18 @@ export default function Login(props) {
     }
 
     const signin = (email, password) => {
-        try {
-            firebase.auth().signInWithEmailAndPassword(email, password)
-            props.navigation.navigate('Home', {
-                navigation: props.navigation
-            })
-        } catch(error) {
-            alert('That email/password combination does not exist')
-        }
+            try {
+                firebase.auth().signInWithEmailAndPassword(email, password)
+            } catch(error) {
+                alert('That email/password combination does not exist')
+            }
+            
+            let user = firebase.auth().currentUser
+            if(user) {
+                props.navigation.navigate('Home', {
+                    navigation: props.navigation
+                })
+            }
     }
 
     return (
