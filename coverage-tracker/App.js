@@ -86,6 +86,9 @@ export default function App() {
       dormLocationsRef.doc(location.Name.split('/')[0]).set({
         'Latitude': location.Latitude,
         'Longitude': location.Longitude
+      },
+      {
+        'merge': true
       })
     })
   }
