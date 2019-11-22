@@ -7,6 +7,10 @@ import * as Permissions from 'expo-permissions'
 
 import DormLocations from './components/DormLocations'
 
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+import firebaseApp from './FirebaseWrapper.js'
+
 
 // Include this somehow <div>Icons made by <a href="https://www.flaticon.com/authors/dave-gandy" title="Dave Gandy">Dave Gandy</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 // Include this too <div>Icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
@@ -16,6 +20,12 @@ var APP = {
 }
 
 export default function App() {
+  // Setting up the database
+  var database = firebase.database()
+  this.ref = database.ref('default')
+  const dbh = firebase.firestore();
+  const dormLocationsRef = dbh.collection('dorm-locations')
+
   // Setting up locations
   const [locations, setLocations] = useState([]); 
   const [currLoc, setCurrLoc] = useState({
@@ -56,7 +66,9 @@ export default function App() {
         APP.locations_url
       );
       let parseObject = await response.json();
-      setLocations(assignIDs(parseObject))
+      let parseObjectFilter = assignIDs(parseObject)
+      writeToDormLocations(parseObjectFilter)
+      setLocations(parseObjectFilter)
     }
     fetchData()
   }, []);
@@ -67,6 +79,15 @@ export default function App() {
       location.id = index
       return location
     }).filter(location => location.Latitude && location.Longitude)
+  }
+
+  function writeToDormLocations(locations) {
+    locations.map((location) => {
+      dormLocationsRef.doc(location.Name.split('/')[0]).set({
+        'Latitude': location.Latitude,
+        'Longitude': location.Longitude
+      })
+    })
   }
 
   return (
