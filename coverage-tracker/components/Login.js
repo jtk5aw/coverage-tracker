@@ -7,39 +7,46 @@ import KeyboardShift from './KeyboardShift'
 
 
 export default function Login() {
-  const [email, setEmail] = useState('Email');
-  const [password, setPassword] = useState('Password');
+    const [email, setEmail] = useState('Enter your email');
+    const [password, setPassword] = useState('Enter your password')
+    const [blockText, setBlockText] = useState(false)
 
-  return (
-    <KeyboardShift>
-        {() => (
-        <View style={styles.container}>
-            <View style={styles.center}>
-                <Text style={styles.titleText}>Coverage Tracker</Text>
-                <Image source={require('../assets/life-insurance.png')} style={styles.logo}/>
+    return (
+        <KeyboardShift>
+            {() => (
+            <View style={styles.container}>
+                <View style={styles.center}>
+                    <Text style={styles.titleText}>Coverage Tracker</Text>
+                    <Image source={require('../assets/life-insurance.png')} style={styles.logo}/>
+                </View>
+                <Text style={styles.textDesc}>Email</Text>
+                <TextInput
+                    style={styles.textInput}
+                    onChangeText={email => setEmail(email)}
+                    onFocus={email => setEmail('')}
+                    value={email} />
+                <Text style={styles.textDesc}>Password</Text>
+                <TextInput
+                    style={styles.textInput}
+                    secureTextEntry={blockText}
+                    onChangeText={password => setPassword(password)}
+                    onFocus={password => { 
+                        setBlockText(true)
+                        setPassword('')
+                    }}
+                    value={password} />
+                <TouchableOpacity
+                    style={styles.button}>
+                    <Text>Log in</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.button}>
+                    <Text>Sign Up</Text>
+                </TouchableOpacity>
             </View>
-            <TextInput
-                style={styles.textInput}
-                onChangeText={email => setEmail(email)}
-                onFocus={(email) => setEmail('')}
-                value={email} />
-            <TextInput
-                style={styles.textInput}
-                onChangeText={password => setPassword(password)}
-                onFocus={(password) => setPassword('')}
-                value={password} />
-            <TouchableOpacity
-                style={styles.button}>
-                <Text>Log in</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.button}>
-                <Text>Sign Up</Text>
-            </TouchableOpacity>
-        </View>
-        )}
-    </KeyboardShift>
-  );
+            )}
+        </KeyboardShift>
+    );
 }
 
 
@@ -63,6 +70,10 @@ const styles = StyleSheet.create({
         flex: 1, 
         width: Dimensions.get('window').width - 50,
         height: Dimensions.get('window').height / 2,
+    },
+    textDesc: {
+        marginLeft: 20, 
+        marginRight: 20,
     },
     textInput: {
         height: 40, 
