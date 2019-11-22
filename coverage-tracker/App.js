@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
-import * as Google from 'expo-google-app-auth';
+import { createAppContainer} from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
 
 import * as firebase from 'firebase';
 import 'firebase/firestore';
@@ -11,38 +12,26 @@ import HomeScreen from './components/HomeScreen'
 import Login from './components/Login'
 
 
-export default function App() {
-  // Setting up the database
-  var database = firebase.database()
-  this.ref = database.ref('default')
-  const dbh = firebase.firestore();
-  const dormLocationsRef = dbh.collection('dorm-locations')
-
-  // // On mount will check for google-login
-  // useEffect(() => {
-  //   const googleLogin = async () => {
-  //     const { type, accessToken, user } = await Google.logInAsync(config);
-
-  //     if (type === 'success') {
-  //       // Then you can use the Google REST API
-  //       let userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
-  //         headers: { Authorization: `Bearer ${accessToken}` },
-  //       });
-  //     }
-  //   }
-  //   googleLogin()
-  // }, [])
-
-  return (
-    <Login />
-  );
+const screens = {
+  Home: {
+    scren: HomeScreen
+  },
+  Login: {
+    screen:  Login
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const navConfig = {
+  headerMode: 'none',
+  initialRouteName: 'Login'
+}
+
+const MainNavigator = createStackNavigator(screens, navConfig);
+const AppContainer = createAppContainer(MainNavigator)
+
+
+export default function App() {
+  return (
+    <AppContainer />
+  );
+}

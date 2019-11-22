@@ -3,13 +3,36 @@ import { useState, useEffect } from 'react';
 import { Dimensions, View, TextInput, TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+import firebaseApp from '../FirebaseWrapper'
+
 import KeyboardShift from './KeyboardShift'
 
 
-export default function Login() {
+export default function Login(props) {
     const [email, setEmail] = useState('Enter your email');
     const [password, setPassword] = useState('Enter your password')
     const [blockText, setBlockText] = useState(false)
+
+    const signup = (email, password) => {
+        try {
+            firebase.auth().createUserWithEmailAndPassword(email, password);
+        } catch (error) {
+            console.log(error.toString(error))
+        }
+    }
+
+    const signin = (email, password) => {
+        try {
+            firebase.auth().signInWithEmailAndPassword(email, password)
+            props.navigation.navigate('Home', {
+                navigation: props.navigation
+            })
+        } catch(error) {
+            alert('That email/password combination does not exist')
+        }
+    }
 
     return (
         <KeyboardShift>
@@ -40,7 +63,8 @@ export default function Login() {
                     <Text>Log in</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={styles.button}>
+                    style={styles.button}
+                    onPress={() => signup(email, password)}>
                     <Text>Sign Up</Text>
                 </TouchableOpacity>
             </View>

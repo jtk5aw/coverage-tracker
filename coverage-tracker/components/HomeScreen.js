@@ -15,7 +15,7 @@ import firebaseApp from '../FirebaseWrapper'
 // Include this somehow <div>Icons made by <a href="https://www.flaticon.com/authors/dave-gandy" title="Dave Gandy">Dave Gandy</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 // Include this too <div>Icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
-export default function HomeScreen() {
+export default function HomeScreen(props) {
   // Setting up the database
   var database = firebase.database()
   this.ref = database.ref('default')
