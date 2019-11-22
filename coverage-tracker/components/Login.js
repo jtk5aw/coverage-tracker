@@ -59,6 +59,7 @@ export default function Login(props) {
                     }}
                     value={password} />
                 <TouchableOpacity
+                    onPress={() => signin(email, password)}
                     style={styles.button}>
                     <Text>Log in</Text>
                 </TouchableOpacity>

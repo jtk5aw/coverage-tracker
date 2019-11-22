@@ -14,7 +14,7 @@ import Login from './components/Login'
 
 const screens = {
   Home: {
-    scren: HomeScreen
+    screen: HomeScreen
   },
   Login: {
     screen:  Login
