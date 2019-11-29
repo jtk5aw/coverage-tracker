@@ -30,7 +30,7 @@ export default function SendVerification(props) {
                 <Text style={[styles.textInstructions, styles.textAlignLeft]}>Please click the button below to send a verification email. Follow the instructions in that email in order to finish setting up your account.</Text>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => sendVerification('jtk5aw@virginia.edu', 'password')}>
+                    onPress={() => sendVerification(props.navigation.state.params.email, props.navigation.state.params.password)}>
                     <Text>Send Email verification</Text>
                 </TouchableOpacity>
             </View>

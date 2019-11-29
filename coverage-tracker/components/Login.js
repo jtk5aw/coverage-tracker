@@ -18,9 +18,13 @@ export default function Login(props) {
     const signup = (email, password) => {
         firebase.auth()
             .createUserWithEmailAndPassword(email, password)
-            .then(() => props.navigation.navigate('SendVerification', {
-                navigation: props.navigation
-            }))
+            .then(() => {
+                props.navigation.navigate('SendVerification', {
+                    navigation: props.navigation,
+                    email: email,
+                    password: password
+                })
+            })
             .catch(error => alert('That email already is used by another account'))
     }
 
