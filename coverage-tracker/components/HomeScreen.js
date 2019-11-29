@@ -118,12 +118,6 @@ export default function HomeScreen(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   absoluteFill: {
     ...StyleSheet.absoluteFillObject,
   },
@@ -135,7 +129,10 @@ const styles = StyleSheet.create({
     marginRight: 1,
   }, 
   signOut: {
-    alignItems: 'flex-end', 
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '25%', 
+    marginLeft: 25,
     marginTop: Constants.statusBarHeight,
     backgroundColor: '#DDDDDD',
   },
