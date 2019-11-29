@@ -18,6 +18,9 @@ export default function Login(props) {
     const signup = (email, password) => {
         firebase.auth()
             .createUserWithEmailAndPassword(email, password)
+            .then(() => props.navigation.navigate('SendVerification', {
+                navigation: props.navigation
+            }))
             .catch(error => alert('That email already is used by another account'))
     }
 
@@ -110,5 +113,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#DDDDDD',
         padding: 10,
         margin: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
     },
   });
