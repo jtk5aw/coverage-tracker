@@ -15,8 +15,10 @@ export default function SendVerification(props) {
         firebase.auth()
             .signInWithEmailAndPassword(email, password)
             .then((data) => {
-                console.log(data.user)
                 data.user.sendEmailVerification()
+                .then(() => props.navigation.navigate('Login', {
+                    navigation: props.navigation
+                }))
             })
             .catch(error => alert(error))
     }
