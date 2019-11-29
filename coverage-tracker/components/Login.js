@@ -27,9 +27,16 @@ export default function Login(props) {
     const signin = (email, password) => {
         firebase.auth()
             .signInWithEmailAndPassword(email, password)
-            .then(() => props.navigation.navigate('Home', {
-                navigation: props.navigation
-            }))
+            .then((data) => {
+                if(data.user.emailVerified) {
+                    props.navigation.navigate('Home', {
+                        navigation: props.navigation
+                    })                
+                }
+                else {
+                    alert('You must verify your email before you can log-in.')
+                }
+            })
             .catch(error => alert('That email/password combination does not exist'))
     }
 
