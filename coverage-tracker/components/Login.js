@@ -16,11 +16,9 @@ export default function Login(props) {
     const [blockText, setBlockText] = useState(false)
 
     const signup = (email, password) => {
-        try {
-            firebase.auth().createUserWithEmailAndPassword(email, password);
-        } catch (error) {
-            console.log(error.toString(error))
-        }
+        firebase.auth()
+            .createUserWithEmailAndPassword(email, password)
+            .catch(error => alert('That email already is used by another account'))
     }
 
     const signin = (email, password) => {
