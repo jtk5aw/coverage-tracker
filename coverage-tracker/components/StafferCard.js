@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Linking } from 'expo';
 
 export default function StafferCard(props) {
 
@@ -13,14 +14,16 @@ export default function StafferCard(props) {
       </View>
       <View style={styles.buttomSection}>
         <TouchableOpacity
-          style={styles.buttonStyle}>
+          style={styles.buttonStyle}
+          onPress={() => Linking.openURL('tel:'+props.phone_number)}>
           <Text
             style={styles.screenText}>
             Call Me
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.buttonStyle}>
+          style={styles.buttonStyle}
+          onPress={() => Linking.openURL('sms:'+props.phone_number)}>
           <Text
             style={styles.screenText}>
             Text Me
