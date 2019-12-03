@@ -112,18 +112,18 @@ export default function HomeScreen(props) {
           </View>
           <View style={styles.buttonBar}>
             <TouchableOpacity 
-            style={styles.button}
-            onPress={() => signout()}
-            >
-              <Text>Sign Out</Text> 
-            </TouchableOpacity>
-            <TouchableOpacity 
             adjustFontSizeToFit
             numberOfLines={1}
             style={styles.button}
             >
               <Text>{userInfo.building} page</Text> 
-            </TouchableOpacity>          
+            </TouchableOpacity> 
+            <TouchableOpacity 
+            style={styles.button}
+            onPress={() => signout()}
+            >
+              <Text>Sign Out</Text> 
+            </TouchableOpacity>         
           </View>
         </View>
         <MapView 
