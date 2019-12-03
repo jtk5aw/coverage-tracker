@@ -6,6 +6,7 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions'
 
 import DormLocations from './DormLocations'
+import HomeBar from './HomeBar'
 
 import * as firebase from 'firebase';
 import 'firebase/firestore';
@@ -105,42 +106,16 @@ export default function HomeScreen(props) {
 
   return (
     <View style={styles.absoluteFill}>
-        <View style={styles.infoBar}>
-          { userInfo.staffer_type != null ? 
-            <View style={styles.textBar}>
-              <Text style={styles.textBarText}>{userInfo.name} - {userInfo.staffer_type}</Text>
-              <Text style={styles.textBarText}>{userInfo.on_coverage ? 'On Coverage' : 'Not on Coverage' }</Text>
-            </View>
-            : <Text></Text>
-          }
-          <View style={styles.buttonBar}>
-            { userInfo.staffer_type != null ? 
-              <TouchableOpacity 
-              adjustFontSizeToFit
-              numberOfLines={1}
-              style={styles.button}
-              >
-                <Text>{userInfo.building} page</Text> 
-              </TouchableOpacity> 
-              : <Text></Text>
-            }
-            <TouchableOpacity 
-            style={styles.button}
-            onPress={() => signout()}
-            >
-              <Text>Sign Out</Text> 
-            </TouchableOpacity>         
-          </View>
-        </View>
-        <MapView 
-        style = {[styles.absoluteFill, styles.mapMargin]}
-        initialRegion={{
-            latitude: 38.0336,
-            longitude: -78.5080,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-        }}
-        >
+      <HomeBar userInfo={userInfo} signout={signout}/>
+      <MapView 
+      style = {[styles.absoluteFill, styles.mapMargin]}
+      initialRegion={{
+          latitude: 38.0336,
+          longitude: -78.5080,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+      }}
+      >
         <DormLocations locations={locations}/>
         <Marker
         coordinate={{ // May update if currLoc changes
@@ -152,7 +127,7 @@ export default function HomeScreen(props) {
         pinColor='blue'
         >
         </Marker>
-        </MapView>
+      </MapView>
     </View>
   );
 }
@@ -161,28 +136,6 @@ const styles = StyleSheet.create({
   absoluteFill: {
     ...StyleSheet.absoluteFillObject,
   },
-  infoBar: {
-    position: 'relative',
-    flex: 1,
-    flexDirection: 'column',
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: Constants.statusBarHeight,
-    marginBottom: Dimensions.get('window').height - (Constants.statusBarHeight + 65),
-  },
-  textBar: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  buttonBar: {
-    flex: 1, 
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  textBarText: {
-    fontWeight: 'bold',
-  },
   mapMargin: {
     borderWidth: 5,
     borderColor: 'black',
@@ -190,23 +143,4 @@ const styles = StyleSheet.create({
     marginLeft: 1,
     marginRight: 1,
   }, 
-  green: {
-    color: 'green',
-  },
-  red: {
-    color: 'red',
-  },
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 'auto', 
-    paddingLeft: 5,
-    paddingRight: 5,
-    backgroundColor: '#DDDDDD',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    height: 25,
-  },
 });
