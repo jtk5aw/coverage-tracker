@@ -19,6 +19,12 @@ export default function HomeBar(props) {
                 adjustFontSizeToFit
                 numberOfLines={1}
                 style={styles.button}
+                onPress = {() => {
+                  props.navigation.navigate('DormPage', {
+                    dorm: props.userInfo.building,
+                    navigation : props.navigation,
+                  })
+                }}
                 >
                     <Text>{props.userInfo.building} page</Text> 
                 </TouchableOpacity> 

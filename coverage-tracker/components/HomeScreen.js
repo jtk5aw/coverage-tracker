@@ -129,7 +129,11 @@ export default function HomeScreen(props) {
 
   return (
     <View style={styles.absoluteFill}>
-      <HomeBar userInfo={userInfo} signout={signout}/>
+      <HomeBar 
+      userInfo={userInfo} 
+      signout={signout} 
+      navigation={props.navigation}
+      />
       <MapView 
       style = {[styles.absoluteFill, styles.mapMargin]}
       initialRegion={{
