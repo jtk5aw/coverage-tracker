@@ -92,7 +92,19 @@ export default function HomeScreen(props) {
     }
     fetchData()
     
-  }, [])
+  }, [currCompId])
+
+  // Get Staffers in your building after userInfo is set
+  useEffect(() => {
+    const fetchDormData = async() => {
+      let response = await fetch(
+        APP.staffers_url + 'by_dorm/' + userInfo.building
+      )
+      let parseObject = await response.json()
+      setDormStaffers(filterDormStaffers(parseObject))
+    }
+    fetchDormData()
+  }, [userInfo])
 
   const signout = () => {
     firebase.auth().signOut().then(() => {
