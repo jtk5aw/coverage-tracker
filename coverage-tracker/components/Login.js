@@ -16,19 +16,31 @@ export default function Login(props) {
     const [blockText, setBlockText] = useState(false)
 
     const signup = (email, password) => {
-        try {
-            firebase.auth().createUserWithEmailAndPassword(email, password);
-        } catch (error) {
-            console.log(error.toString(error))
-        }
+        firebase.auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                props.navigation.navigate('SendVerification', {
+                    navigation: props.navigation,
+                    email: email,
+                    password: password
+                })
+            })
+            .catch(error => alert('That email already is used by another account'))
     }
 
     const signin = (email, password) => {
         firebase.auth()
             .signInWithEmailAndPassword(email, password)
-            .then(() => props.navigation.navigate('Home', {
-                navigation: props.navigation
-            }))
+            .then((data) => {
+                if(data.user.emailVerified) {
+                    props.navigation.navigate('Home', {
+                        navigation: props.navigation
+                    })                
+                }
+                else {
+                    alert('You must verify your email before you can log-in.')
+                }
+            })
             .catch(error => alert('That email/password combination does not exist'))
     }
 
@@ -112,5 +124,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#DDDDDD',
         padding: 10,
         margin: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
     },
   });

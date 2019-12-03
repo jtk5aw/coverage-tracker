@@ -55,35 +55,35 @@ export default function HomeScreen(props) {
     getStartLoc()
   }, [])
 
-    useEffect(() => {
-      dormLocationsRef.get()
-      .then((querySnapshot) => {
-        parseObject = querySnapshot.docs.map((doc, index) => {
-          data = doc.data()
-          return {
-            'id': index,
-            'Name': doc.id,
-            'Latitude': data.Latitude,
-            'Longitude': data.Longitude
-          }
-        })
-        setLocations(parseObject)
+  useEffect(() => {
+    dormLocationsRef.get()
+    .then((querySnapshot) => {
+      parseObject = querySnapshot.docs.map((doc, index) => {
+        data = doc.data()
+        return {
+          'id': index,
+          'Name': doc.id,
+          'Latitude': data.Latitude,
+          'Longitude': data.Longitude
+        }
       })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
-      });
+      setLocations(parseObject)
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
     
-    }, [])
+  }, [])
 
-    const signout = () => {
-        firebase.auth().signOut().then(() => {
-            props.navigation.navigate('Login', {
-                navigation: props.navigation,
-            })
-        }).catch((error) =>  {
-            alert('An error occurred that prevented Sign Out from occuring')
+  const signout = () => {
+    firebase.auth().signOut().then(() => {
+        props.navigation.navigate('Login', {
+            navigation: props.navigation,
         })
-    }
+    }).catch((error) =>  {
+        alert('An error occurred that prevented Sign Out from occuring')
+    })
+  }
 
   return (
     <View style={styles.absoluteFill}>
@@ -135,5 +135,9 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginTop: Constants.statusBarHeight,
     backgroundColor: '#DDDDDD',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
   },
 });
