@@ -22,6 +22,7 @@ export default function HomeBar(props) {
                 onPress = {() => {
                   props.navigation.navigate('DormPage', {
                     dorm: props.userInfo.building,
+                    dormStaffers: props.dormStaffers,
                     navigation : props.navigation,
                   })
                 }}

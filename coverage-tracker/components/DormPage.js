@@ -6,6 +6,8 @@ import * as firebase from 'firebase';
 import 'firebase/firestore';
 import firebaseApp from '../FirebaseWrapper'
 
+import CarouselView from './CarouselView';
+
 
 export default function DormPage(props) {
   // Setting up the database
@@ -21,7 +23,10 @@ export default function DormPage(props) {
         onPress = {() => props.navigation.goBack()}>
             <Text>Go Back</Text>
         </TouchableOpacity>
-      <Text style={styles.textTitle}>On {props.navigation.getParam('dorm', '')} page</Text>
+        <Text style={styles.textTitle}>On {props.navigation.getParam('dorm', '')} page</Text>
+        <CarouselView
+        dormStaffers={props.navigation.getParam('dormStaffers', [])}
+        />
     </View>
   );
 }
@@ -49,5 +54,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 20,
         fontWeight: 'bold',
+        paddingTop: 10,
     },
 });

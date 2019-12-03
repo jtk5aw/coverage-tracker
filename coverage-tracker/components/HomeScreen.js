@@ -122,7 +122,6 @@ export default function HomeScreen(props) {
       staffer.id = index
       return staffer
     }).filter((staffer) => {
-      console.log(staffer.comp_id === currCompId)
       return staffer.comp_id != currCompId
     })
   }
@@ -131,6 +130,7 @@ export default function HomeScreen(props) {
     <View style={styles.absoluteFill}>
       <HomeBar 
       userInfo={userInfo} 
+      dormStaffers={dormStaffers}
       signout={signout} 
       navigation={props.navigation}
       />
