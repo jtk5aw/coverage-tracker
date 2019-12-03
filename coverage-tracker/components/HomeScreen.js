@@ -106,18 +106,24 @@ export default function HomeScreen(props) {
   return (
     <View style={styles.absoluteFill}>
         <View style={styles.infoBar}>
-          <View style={styles.textBar}>
-            <Text style={styles.textBarText}>{userInfo.name} - {userInfo.staffer_type}</Text>
-            <Text style={styles.textBarText}>{userInfo.on_coverage ? 'On Coverage' : 'Not on Coverage' }</Text>
-          </View>
+          { userInfo.staffer_type != null ? 
+            <View style={styles.textBar}>
+              <Text style={styles.textBarText}>{userInfo.name} - {userInfo.staffer_type}</Text>
+              <Text style={styles.textBarText}>{userInfo.on_coverage ? 'On Coverage' : 'Not on Coverage' }</Text>
+            </View>
+            : <Text></Text>
+          }
           <View style={styles.buttonBar}>
-            <TouchableOpacity 
-            adjustFontSizeToFit
-            numberOfLines={1}
-            style={styles.button}
-            >
-              <Text>{userInfo.building} page</Text> 
-            </TouchableOpacity> 
+            { userInfo.staffer_type != null ? 
+              <TouchableOpacity 
+              adjustFontSizeToFit
+              numberOfLines={1}
+              style={styles.button}
+              >
+                <Text>{userInfo.building} page</Text> 
+              </TouchableOpacity> 
+              : <Text></Text>
+            }
             <TouchableOpacity 
             style={styles.button}
             onPress={() => signout()}
