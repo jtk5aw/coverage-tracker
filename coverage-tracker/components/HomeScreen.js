@@ -30,6 +30,7 @@ export default function HomeScreen(props) {
   // Setting up locations
   const[currCompId, setCurrCompId] = useState(firebase.auth().currentUser.email.split('@')[0])
   const[userInfo, setUserInfo] = useState({});
+  const[dormStaffers, setDormStaffers] = useState({});
   const [locations, setLocations] = useState([]); 
   const [currLoc, setCurrLoc] = useState({
     latitude: 38.0336,
@@ -113,6 +114,16 @@ export default function HomeScreen(props) {
         })
     }).catch((error) =>  {
         alert('An error occurred that prevented Sign Out from occuring')
+    })
+  }
+
+  const filterDormStaffers = (parseObject) => {
+    return parseObject.map((staffer, index) => {
+      staffer.id = index
+      return staffer
+    }).filter((staffer) => {
+      console.log(staffer.comp_id === currCompId)
+      return staffer.comp_id != currCompId
     })
   }
 
