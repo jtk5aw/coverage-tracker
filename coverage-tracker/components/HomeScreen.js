@@ -30,6 +30,7 @@ export default function HomeScreen(props) {
   // Setting up locations
   const[currCompId, setCurrCompId] = useState(firebase.auth().currentUser.email.split('@')[0])
   const[userInfo, setUserInfo] = useState({});
+  const[dormStaffers, setDormStaffers] = useState({});
   const [locations, setLocations] = useState([]); 
   const [currLoc, setCurrLoc] = useState({
     latitude: 38.0336,
@@ -92,7 +93,19 @@ export default function HomeScreen(props) {
     }
     fetchData()
     
-  }, [])
+  }, [currCompId])
+
+  // Get Staffers in your building after userInfo is set
+  useEffect(() => {
+    const fetchDormData = async() => {
+      let response = await fetch(
+        APP.staffers_url + 'by_dorm/' + userInfo.building
+      )
+      let parseObject = await response.json()
+      setDormStaffers(filterDormStaffers(parseObject))
+    }
+    fetchDormData()
+  }, [userInfo])
 
   const signout = () => {
     firebase.auth().signOut().then(() => {
@@ -104,9 +117,23 @@ export default function HomeScreen(props) {
     })
   }
 
+  const filterDormStaffers = (parseObject) => {
+    return parseObject.map((staffer, index) => {
+      staffer.id = index
+      return staffer
+    }).filter((staffer) => {
+      return staffer.comp_id != currCompId
+    })
+  }
+
   return (
     <View style={styles.absoluteFill}>
-      <HomeBar userInfo={userInfo} signout={signout}/>
+      <HomeBar 
+      userInfo={userInfo} 
+      dormStaffers={dormStaffers}
+      signout={signout} 
+      navigation={props.navigation}
+      />
       <MapView 
       style = {[styles.absoluteFill, styles.mapMargin]}
       initialRegion={{

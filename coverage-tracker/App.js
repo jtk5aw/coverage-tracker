@@ -11,6 +11,7 @@ import firebaseApp from './FirebaseWrapper.js'
 import HomeScreen from './components/HomeScreen'
 import Login from './components/Login'
 import SendVerification from './components/SendVerification'
+import DormPage from './components/DormPage'
 
 
 const screens = {
@@ -22,6 +23,9 @@ const screens = {
   },
   SendVerification: {
     screen: SendVerification
+  }, 
+  DormPage: {
+    screen: DormPage
   }
 }
 
