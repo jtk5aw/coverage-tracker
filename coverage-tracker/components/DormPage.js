@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Constants from 'expo-constants';
 
 import * as firebase from 'firebase';
@@ -27,6 +27,9 @@ export default function DormPage(props) {
         <CarouselView
         dormStaffers={props.navigation.getParam('dormStaffers', [])}
         />
+        <View style={styles.centerImage}>
+            <Image source={require('../assets/Resident_Staff_logo.png')} style={styles.logo}/>
+        </View>
     </View>
   );
 }
@@ -55,5 +58,15 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         paddingTop: 10,
+    },
+    centerImage: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: Constants.statusBarHeight + 200,
+    }, 
+    logo: {
+        width: Dimensions.get('window').width - 100,
+        height: Dimensions.get('window').height / 2,
     },
 });

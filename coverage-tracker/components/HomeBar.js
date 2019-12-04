@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between'
     },
     textBarText: {
+      paddingTop: 10,
       fontWeight: 'bold',
     },
     button: {

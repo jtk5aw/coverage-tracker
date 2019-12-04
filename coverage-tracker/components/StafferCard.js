@@ -9,7 +9,7 @@ export default function StafferCard(props) {
       <View style={styles.topSection}>
         <View style={styles.textSection}>
           <Text style={[styles.screenText, styles.nameText]}>{props.name} - {props.comp_id}</Text>
-          <Text style={styles.screenText}>{props.on_coverage ? 'On Coverage' : ''}</Text>
+          <Text style={[styles.screenText, styles.coverageText]}>{props.on_coverage ? 'On Coverage' : ''}</Text>
         </View>
       </View>
       <View style={styles.buttomSection}>
@@ -64,6 +64,12 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 50,
   },
+  textSection: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   buttonStyle: {
     width: '50%',
     flexDirection: 'row',
@@ -83,6 +89,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica',
     fontSize: 14,
   },
+  coverageText: {
+    textAlign: 'center',
+    color: '#3e32a8',
+    fontWeight: 'bold',
+  },  
   buttomSection: {
     flexDirection: 'row',
     borderTopColor: '#D8D8D8',
