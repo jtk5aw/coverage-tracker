@@ -1,9 +1,12 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions, ScrollView, Image } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
+import { Linking } from 'expo';
+import { DeviceMotion } from 'expo-sensors';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions'
+
 
 import DormLocations from './DormLocations'
 import HomeBar from './HomeBar'
@@ -11,6 +14,7 @@ import HomeBar from './HomeBar'
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 import firebaseApp from '../FirebaseWrapper'
+import { RotationGestureHandler } from 'react-native-gesture-handler';
 
 
 // Include this somehow <div>Icons made by <a href="https://www.flaticon.com/authors/dave-gandy" title="Dave Gandy">Dave Gandy</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
@@ -29,9 +33,10 @@ export default function HomeScreen(props) {
 
   // Setting up locations
   const[currCompId, setCurrCompId] = useState(firebase.auth().currentUser.email.split('@')[0])
-  const[userInfo, setUserInfo] = useState({});
-  const[dormStaffers, setDormStaffers] = useState({});
-  const [locations, setLocations] = useState([]); 
+  const[userInfo, setUserInfo] = useState({})
+  const[onCoverageInfo, setOnCoverageInfo] = useState({})
+  const[dormStaffers, setDormStaffers] = useState([])
+  const [locations, setLocations] = useState([]);
   const [currLoc, setCurrLoc] = useState({
     latitude: 38.0336,
     longitude: -78.5080,
@@ -106,6 +111,29 @@ export default function HomeScreen(props) {
     }
     fetchDormData()
   }, [userInfo])
+
+  useEffect(() =>  {
+    let staffersOnCoverage = dormStaffers.filter((staffer) => {
+      return staffer.on_coverage;
+    })
+    setOnCoverageInfo(staffersOnCoverage[0])
+  }, [dormStaffers])
+
+  useEffect(() => {
+    DeviceMotion.addListener((shake) => {
+      if(9 < shake.rotationRate.gamma) {
+        Alert.alert(
+          'Call RA on Coverage',
+          onCoverageInfo.name + ' is on coverage.', 
+          [
+            {text: 'Nevermind'},
+            {text: 'Make call', onPress: () => Linking.openURL('tel:'+onCoverageInfo.phone_number)},
+          ],
+        )
+      }
+    });
+    return () => DeviceMotion.removeAllListeners();
+  }, [onCoverageInfo])
 
   const signout = () => {
     firebase.auth().signOut().then(() => {
