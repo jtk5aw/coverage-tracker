@@ -25,6 +25,8 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "Final Project for CS 4720",
+    "githubUrl": "https://github.com/jtk5aw/coverage-tracker"
   }
 }
